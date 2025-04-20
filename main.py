@@ -27,7 +27,7 @@ alg="haarcascade_frontalface_default.xml"
 haar_cascade = cv2.CascadeClassifier(alg)
 image = take_picture()
 gray_img = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-faces = haar_cascade.detectMultiScale(gray_img, scaleFactor=1.1, minNeighbors=1, minSize=(100, 100))
+faces = haar_cascade.detectMultiScale(gray_img, scaleFactor=1.05, minNeighbors=2, minSize=(100, 100))
 
 i=0
 for (x, y, w, h) in faces:
@@ -43,6 +43,8 @@ for filename in os.listdir("Faces"):
     img = Image.open("Faces/" + filename)
     ibed = imgbeddings()
     embedding = ibed.to_embeddings(img)
+    print(embedding[0])
+    print("hello")
     cur = conn.cursor()
     cur.execute("INSERT INTO pictures values (%s,%s)", (filename, embedding[0].tolist()))
     print(filename)
